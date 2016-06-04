@@ -2,28 +2,6 @@ audio, canvas, progress, video {
     position: absolute;
     left: 0;
 }
-#emotion_container {
-    width: 600px;
-}
-
-#emotion_icons {
-    height: 50px;
-    padding-left: 40px;
-}
-
-.emotion_icon {
-    width : 40px;
-    height : 40px;
-    margin-top: 5px;
-    /*margin-left : 13px;*/
-    margin-left : 35px;
-}
-
-#emotion_chart, #emotion_icons {
-    margin: 0 auto;
-    width : 400px;
-}
-
 #icon1, #icon2, #icon3, #icon4, #icon5, #icon6 {
     visibility : hidden;
 }
@@ -48,6 +26,7 @@ audio, canvas, progress, video {
   width: 50%;
   box-sizing: border-box;
   display: inline-block;
+  text-align: center;
 }
 
 #overlay, #webgl {
@@ -64,6 +43,12 @@ audio, canvas, progress, video {
 	height : 303px;
 }
 
+#agora_local{
+  border: 1px solid #eee;
+  padding: 3px;
+  margin: 0 auto;
+  border-radius: 4px;
+}
 
 .right-part{
   position: relative;
@@ -71,4 +56,9 @@ audio, canvas, progress, video {
   vertical-align: top;
   display: inline-block;
   box-sizing: border-box;
+}
+.right-part>div>div:first-child{
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 2px;
 }
