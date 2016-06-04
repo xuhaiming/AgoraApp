@@ -1,19 +1,24 @@
+body {
+    background-size: auto 100%;
+}
+
 audio, canvas, progress, video {
     position: absolute;
     left: 0;
 }
+
 #icon1, #icon2, #icon3, #icon4, #icon5, #icon6 {
-    visibility : hidden;
+    visibility: hidden;
 }
 
 /* d3 */
 .bar {
-    fill : steelblue;
-    fill-opacity : .9;
+    fill: steelblue;
+    fill-opacity: .9;
 }
 
-#video-container{
-  position: relative;
+#video-container {
+    position: relative;
     width: 100%;
     height: 100%;
     box-sizing: border-box;
@@ -21,44 +26,50 @@ audio, canvas, progress, video {
     padding: 0;
     border: 0;
 }
-.left-part{
-  position: relative;
-  width: 50%;
-  box-sizing: border-box;
-  display: inline-block;
-  text-align: center;
+
+.left-part {
+    position: relative;
+    width: 50%;
+    box-sizing: border-box;
+    display: inline-block;
+    text-align: center;
 }
 
 #overlay, #webgl {
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	-o-transform : scaleX(-1);
-	-webkit-transform : scaleX(-1);
-	transform : scaleX(-1);
-	-ms-filter : fliph; /*IE*/
-	filter : fliph; /*IE*/
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    -ms-filter: fliph; /*IE*/
+    filter: fliph; /*IE*/
 
-	width : 405px;
-	height : 303px;
+    width: 405px;
+    height: 303px;
 }
 
-#agora_local{
-  border: 1px solid #eee;
-  padding: 3px;
-  margin: 0 auto;
-  border-radius: 4px;
+#agora_local {
+    border: 1px solid #eee;
+    padding: 3px;
+    margin: 0 auto;
+    border-radius: 4px;
 }
 
-.right-part{
-  position: relative;
-  width: 50%;
-  vertical-align: top;
-  display: inline-block;
-  box-sizing: border-box;
+.right-part {
+    position: relative;
+    width: 50%;
+    vertical-align: top;
+    display: inline-block;
+    box-sizing: border-box;
 }
-.right-part>div>div:first-child{
-  border: 1px solid #eee;
-  border-radius: 4px;
-  padding: 2px;
+
+.right-part > div > div:first-child {
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 2px;
+}
+
+.masks {
+    display: none;
 }
