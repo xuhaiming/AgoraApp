@@ -7,6 +7,9 @@
 	<script src="vendor/socket.io.js"></script>
 	<script src="vendor/adapter.js"></script>
 	<script src="AgoraRTCSDK-1.2.5.js"></script>
+
+	<script src="js/clmtrackr.js"></script>
+	<script src="js/model_pca_20_svm.js"></script>
 </head>
 
 <body>
@@ -31,8 +34,10 @@
 	</div>
 </div>
 
-<div id="video">
-	<div id="agora_local" style="width:810px;height:607px;display:inline-block;"></div>
+<div id="video-container">
+	<div id="agora_local" style="width:400px;height:300px;display:inline-block;"></div>
+	<video id="video_local" width="400" height="300" style="≈display:inline-block;"></video>
+	<canvas id="drawCanvas" width="400" height="300"></canvas>
 </div>
 
 <script language="javascript">
@@ -124,13 +129,38 @@
 				});
 
 				client.on('stream-subscribed', function(evt) {
-					debugger;
 					var stream = evt.stream;
 					console.log("Subscribe remote stream successfully: " + stream.getId());
 					if ($('div#video #agora_remote' + stream.getId()).length === 0) {
-						$('div#video').append('<div id="agora_remote' + stream.getId() + '" style="width:810px;height:607px;display:inline-block;"></div>');
+						$('div#video-container').append('<div id="agora_remote' + stream.getId() + '" style="width:405px;height:303px;display:inline-block;"></div>');
 					}
 					stream.play('agora_remote' + stream.getId());
+
+
+					var videoInput = document.querySelector('#agora_remote' + + stream.getId() + ' video');
+					videoInput.width = 400;
+					videoInput.height = 300;
+
+					var ctracker = new clm.tracker();
+					ctracker.init(pModel);
+					ctracker.start(videoInput);
+
+					function positionLoop() {
+						requestAnimationFrame(positionLoop);
+						var positions = ctracker.getCurrentPosition();
+						// positions = [[x_0, y_0], [x_1,y_1], ... ]
+						// do something with the positions ...
+					}
+					positionLoop();
+
+					var canvasInput = document.getElementById('drawCanvas');
+					var cc = canvasInput.getContext('2d');
+					function drawLoop() {
+						requestAnimationFrame(drawLoop);
+						cc.clearRect(0, 0, canvasInput.width, canvasInput.height);
+						ctracker.draw(canvasInput);
+					}
+					drawLoop();
 				});
 
 				client.on('stream-removed', function(evt) {
