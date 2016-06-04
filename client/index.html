@@ -13,7 +13,7 @@
 </head>
 
 <body>
-<div id="div_device" class="panel panel-default" style="display:block">
+<div id="div_device" class="panel panel-default" style="display:none">
 	<div class="select">
 		<label for="audioSource">Audio source: </label><select id="audioSource"></select>
 	</div>
@@ -22,7 +22,7 @@
 	</div>
 </div>
 
-<div id="div_join" class="panel panel-default">
+<div id="div_join" class="panel panel-default" style="display:none">
 	<div class="panel-body">
 		<button id="join" class="btn btn-primary" onclick="join()">Join</button>
 		<button id="leave" class="btn btn-primary" onclick="leave()">Leave</button>
@@ -170,6 +170,8 @@
 			}
 		});
 	}
+
+	join();
 
 	function leave() {
 		document.getElementById("leave").disabled = true;
