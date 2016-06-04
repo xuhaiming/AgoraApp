@@ -4,6 +4,10 @@ var http = require('http');
 var express = require('express');
 var AgoraSignGenerator = require('./lib/AgoraSignGenerator');
 var path = require('path');
+var https = require('https');
+var fs = require('fs');
+var privateKey  = fs.readFileSync('./sslcert/privateKey.key', 'utf8');
+var certificate = fs.readFileSync('./sslcert/certificate.crt', 'utf8');
 
 var PORT = 8080;
 
@@ -14,6 +18,8 @@ var SIGN_KEY = "7eb4ea0f17cb4bd887e209a6c7a3228b";
 //var private_key = fs.readFileSync(__dirname + '/../../cert/xxx.com.key');
 //var certificate = fs.readFileSync(__dirname + '/../../cert/xxx.com.crt');
 //var credentials = {key: private_key, cert: certificate, passphrase: "password"};
+
+var credentials = {key: privateKey, cert: certificate};
 
 var app = express();
 app.disable('x-powered-by');
@@ -53,3 +59,5 @@ http.createServer(app).listen(app.get('port'), function() {
 //    console.log('AgoraSignServer starts at ' + (app.get('port') + 1));
 //});
 
+var httpsServer = https.createServer(credentials, app);
+httpsServer.listen(8443);

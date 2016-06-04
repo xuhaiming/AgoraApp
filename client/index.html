@@ -50,7 +50,7 @@
 		console.log("Try to get dynamic key");
 		var use_https = ('https:' == document.location.protocol);
 		if (use_https) {
-			var url_str = "https://localhost:8080/dynamic_key?channelName=" + channel.value;
+			var url_str = "https://192.168.0.65:8443/dynamic_key?channelName=" + channel.value;
 		} else {
 			var url_str = "http://localhost:8080/dynamic_key?channelName=" + channel.value;
 		}
