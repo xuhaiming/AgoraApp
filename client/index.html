@@ -24,9 +24,6 @@
 
 <div id="div_join" class="panel panel-default">
 	<div class="panel-body">
-		Key: <input id="key" type="text" value="" size="36"></input>
-		Channel: <input id="channel" type="text" value="1000" size="4"></input>
-		Video: <input id="video" type="checkbox"></input>
 		<button id="join" class="btn btn-primary" onclick="join()">Join</button>
 		<button id="leave" class="btn btn-primary" onclick="leave()">Leave</button>
 		<button id="publish" class="btn btn-primary" onclick="publish()">Publish</button>
@@ -36,28 +33,28 @@
 
 <div id="video-container">
 	<div id="agora_local" style="width:400px;height:300px;display:inline-block;"></div>
-	<video id="video_local" width="400" height="300" style="≈display:inline-block;"></video>
 	<canvas id="drawCanvas" width="400" height="300"></canvas>
 </div>
 
 <script language="javascript">
 	var client, localStream, camera, microphone;
 
+	var channelValue = '1001';
+
 	var audioSelect = document.querySelector('select#audioSource');
 	var videoSelect = document.querySelector('select#videoSource');
 
 	function join() {
 		document.getElementById("join").disabled = true;
-		document.getElementById("video").disabled = true;
 		document.getElementById("publish").disabled = true;
 		// for dynamic key
 		var dynamic_key;
 		console.log("Try to get dynamic key");
 		var use_https = ('https:' == document.location.protocol);
 		if (use_https) {
-			var url_str = "https://192.168.0.65:8443/dynamic_key?channelName=" + channel.value;
+			var url_str = "https://192.168.0.65:8443/dynamic_key?channelName=" + channelValue;
 		} else {
-			var url_str = "http://localhost:8080/dynamic_key?channelName=" + channel.value;
+			var url_str = "http://localhost:8080/dynamic_key?channelName=" + channelValue;
 		}
 
 		$.ajax({
@@ -69,17 +66,14 @@
 				console.log(response.key);
 				dynamic_key = response.key;
 
-				console.log("Init AgoraRTC client with vendor key: " + key.value);
 				client = AgoraRTC.createRtcClient();
 				// for dynamic key
 				client.init(dynamic_key, function() {
-//		client.init(key.value, function() {
 					console.log("AgoraRTC client initialized");
-					client.join(channel.value, undefined, function(uid) {
+					client.join(channelValue, undefined, function(uid) {
 						console.log("User " + uid + " join channel successfully");
-						if (document.getElementById("video").checked) {
-							camera = videoSource.value;
-						}
+
+						camera = videoSource.value;
 
 						microphone = audioSource.value;
 						localStream = AgoraRTC.createStream({
@@ -87,13 +81,11 @@
 							audio: true,
 							cameraId: camera,
 							microphoneId: microphone,
-							video: document.getElementById("video").checked,
+							video: true,
 							screen: false
 						});
 
-						if (document.getElementById("video").checked) {
-							localStream.setVideoProfile('480p_2');
-						}
+						localStream.setVideoProfile('480p_2');
 
 						localStream.init(function() {
 							console.log("getUserMedia successfully");
@@ -131,7 +123,7 @@
 				client.on('stream-subscribed', function(evt) {
 					var stream = evt.stream;
 					console.log("Subscribe remote stream successfully: " + stream.getId());
-					if ($('div#video #agora_remote' + stream.getId()).length === 0) {
+					if ($('div#video-container #agora_remote' + stream.getId()).length === 0) {
 						$('div#video-container').append('<div id="agora_remote' + stream.getId() + '" style="width:405px;height:303px;display:inline-block;"></div>');
 					}
 					stream.play('agora_remote' + stream.getId());
