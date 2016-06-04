@@ -130,7 +130,7 @@
 					console.log("Subscribe remote stream successfully: " + stream.getId());
 					if ($('div#video-container #agora_remote' + stream.getId()).length === 0) {
 						var container = document.createElement("div");
-						container.id = '"agora_container' + stream.getId() + '"';
+						container.id = 'agora_container' + stream.getId();
 						document.querySelector('#video-container').appendChild(container);
 						$(container).append('<div id="agora_remote' + stream.getId() + '" style="width:405px;height:303px;display:inline-block;"></div>');
 						$(container).append('<canvas id="drawCanvas' + stream.getId() + '" width='+405+' height='+303+'"></canvas>');
@@ -172,7 +172,7 @@
 				client.on('peer-leave', function(evt) {
 					var stream = evt.stream;
 					stream.stop();
-					document.querySelector("#video-container").removeChild(document.querySelector('#agora_remote' + + evt.uid + ''));
+					document.querySelector("#video-container").removeChild(document.querySelector('#agora_container' + + evt.uid + ''));
 					console.log(evt.uid + " leaved from this channel");
 				});
 			}
