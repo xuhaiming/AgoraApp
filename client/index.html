@@ -19,6 +19,22 @@
 </head>
 
 <body>
+
+<div class="login_page">
+	<div class="user_name_container">
+		<label for="username">Your Name: </label>
+		<input type="text" id="username" name="username"/>
+	</div>
+	<div class="mask_selector_container">
+		<span class="mask"></span>
+		<span class="mask"></span>
+		<span class="mask"></span>
+		<span class="mask"></span>
+		<span class="mask"></span>
+	</div>
+	<button class="start_button">Start!</button>
+</div>
+
 <div id="div_device" class="panel panel-default" style="display:none">
 	<div class="select">
 		<label for="audioSource">Audio source: </label><select id="audioSource"></select>
@@ -360,10 +376,6 @@
 											cc.fill();
 										}
 
-
-
-
-
 							client.publish(localStream, function(err) {
 								console.log("Publish local stream error: " + err);
 							});
@@ -401,18 +413,20 @@
 						container.id = 'agora_container' + stream.getId();
 						document.querySelector('#video-container .right-part').appendChild(container);
 						$(container).append('<div id="agora_remote' + stream.getId() + '" style="width:405px;height:303px;display:inline-block;"></div>');
-						$(container).append('<canvas id="drawCanvas' + stream.getId() + '" width='+405+' height='+303+'"></canvas>');
-						$(container).append('<div id="emotion_container"> <div id="emotion_icons"> <img class="emotion_icon" id="icon1" src="./media/icon_angry.png"> <img class="emotion_icon" id="icon2" src="./media/icon_sad.png"> <img class="emotion_icon" id="icon3" src="./media/icon_surprised.png"> <img class="emotion_icon" id="icon4" src="./media/icon_happy.png"> </div> <div id="emotion_chart"></div>')};
-						stream.play('agora_remote' + stream.getId());
+						$(container).append('<canvas id="drawCanvas' + stream.getId() + '" width=' + 405 + ' height=' + 303 + '"></canvas>');
+						$(container).append('<div id="emotion_container"> <div id="emotion_icons"> <img class="emotion_icon" id="icon1" src="./media/icon_angry.png"> <img class="emotion_icon" id="icon2" src="./media/icon_sad.png"> <img class="emotion_icon" id="icon3" src="./media/icon_surprised.png"> <img class="emotion_icon" id="icon4" src="./media/icon_happy.png"> </div> <div id="emotion_chart"></div>')
+					}
+					;
+					stream.play('agora_remote' + stream.getId());
 
-						var canvasInput = document.querySelector('#drawCanvas' + + stream.getId() +'');
-						var videoInput = document.querySelector('#agora_remote' + + stream.getId() + ' video');
-						videoInput.width = 400;
-						videoInput.height = 300;
+					var canvasInput = document.querySelector('#drawCanvas' + +stream.getId() + '');
+					var videoInput = document.querySelector('#agora_remote' + +stream.getId() + ' video');
+					videoInput.width = 400;
+					videoInput.height = 300;
 
-						var ctracker = new clm.tracker();
-						ctracker.init(pModel);
-						ctracker.start(videoInput);
+					var ctracker = new clm.tracker();
+					ctracker.init(pModel);
+					ctracker.start(videoInput);
 
 					function positionLoop() {
 						requestAnimationFrame(positionLoop);
@@ -420,25 +434,29 @@
 						// positions = [[x_0, y_0], [x_1,y_1], ... ]
 						// do something with the positions ...
 					}
+
 					positionLoop();
 
 					var cc = canvasInput.getContext('2d');
+
 					function drawLoop() {
 						requestAnimationFrame(drawLoop);
 						cc.clearRect(0, 0, canvasInput.width, canvasInput.height);
 						if (ctracker.getCurrentPosition()) {
-						ctracker.draw(canvasInput);
+							ctracker.draw(canvasInput);
 						}
 						var cp = ctracker.getCurrentParameters();
 
 						var er = ec.meanPredict(cp);
 						if (er) {
 							updateData(er);
-							for (var i = 0;i < er.length;i++) {
-								if (er[i].value > 0.4) {
-									document.getElementById('icon'+(i+1)).style.visibility = 'visible';
-								} else {
-									document.getElementById('icon'+(i+1)).style.visibility = 'hidden';
+							for (var i = 0; i < er.length; i++) {
+								if (document.querySelector('#agora_container' + stream.getId() + ' #icon' + (i + 1))) {
+									if (er[i].value > 0.4) {
+										document.querySelector('#agora_container' + stream.getId() + ' #icon' + (i + 1)).style.visibility = 'visible';
+									} else {
+										document.querySelector('#agora_container' + stream.getId() + ' #icon' + (i + 1)).style.visibility = 'hidden';
+									}
 								}
 							}
 						}
@@ -446,88 +464,81 @@
 
 // *******************************d3 code
 
-var ec = new emotionClassifier();
-				ec.init(emotionModel);
-				var emotionData = ec.getBlank();
+					var ec = new emotionClassifier();
+					ec.init(emotionModel);
+					var emotionData = ec.getBlank();
 
-				/************ d3 code for barchart *****************/
+					/************ d3 code for barchart *****************/
 
-				var margin = {top : 20, right : 20, bottom : 10, left : 40},
-					width = 400 - margin.left - margin.right,
-					height = 100 - margin.top - margin.bottom;
+					var margin = {top: 20, right: 20, bottom: 10, left: 40},
+						width = 400 - margin.left - margin.right,
+						height = 100 - margin.top - margin.bottom;
 
-				var barWidth = 30;
+					var barWidth = 30;
 
-				var formatPercent = d3.format(".0%");
+					var formatPercent = d3.format(".0%");
 
-				var x = d3.scale.linear()
-					.domain([0, ec.getEmotions().length]).range([margin.left, width+margin.left]);
+					var x = d3.scale.linear()
+						.domain([0, ec.getEmotions().length]).range([margin.left, width + margin.left]);
 
-				var y = d3.scale.linear()
-					.domain([0,1]).range([0, height]);
+					var y = d3.scale.linear()
+						.domain([0, 1]).range([0, height]);
 
-				var svg = d3.select("#emotion_chart").append("svg")
-					.attr("width", width + margin.left + margin.right)
-					.attr("height", height + margin.top + margin.bottom)
+					var svg = d3.select("#agora_container" + stream.getId() + " #emotion_chart").append("svg")
+						.attr("width", width + margin.left + margin.right)
+						.attr("height", height + margin.top + margin.bottom)
 
-				svg.selectAll("rect").
-				  data(emotionData).
-				  enter().
-				  append("svg:rect").
-				  attr("x", function(datum, index) { return x(index); }).
-				  attr("y", function(datum) { return height - y(datum.value); }).
-				  attr("height", function(datum) { return y(datum.value); }).
-				  attr("width", barWidth).
-				  attr("fill", "#2d578b");
+					svg.selectAll("rect").data(emotionData).enter().append("svg:rect").attr("x", function(datum, index) {
+						return x(index);
+					}).attr("y", function(datum) {
+						return height - y(datum.value);
+					}).attr("height", function(datum) {
+						return y(datum.value);
+					}).attr("width", barWidth).attr("fill", "#2d578b");
 
-				svg.selectAll("text.labels").
-				  data(emotionData).
-				  enter().
-				  append("svg:text").
-				  attr("x", function(datum, index) { return x(index) + barWidth; }).
-				  attr("y", function(datum) { return height - y(datum.value); }).
-				  attr("dx", -barWidth/2).
-				  attr("dy", "1.2em").
-				  attr("text-anchor", "middle").
-				  text(function(datum) { return datum.value;}).
-				  attr("fill", "white").
-				  attr("class", "labels");
+					svg.selectAll("text.labels").data(emotionData).enter().append("svg:text").attr("x", function(datum, index) {
+						return x(index) + barWidth;
+					}).attr("y", function(datum) {
+						return height - y(datum.value);
+					}).attr("dx", -barWidth / 2).attr("dy", "1.2em").attr("text-anchor", "middle").text(function(datum) {
+						return datum.value;
+					}).attr("fill", "white").attr("class", "labels");
 
-				svg.selectAll("text.yAxis").
-				  data(emotionData).
-				  enter().append("svg:text").
-				  attr("x", function(datum, index) { return x(index) + barWidth; }).
-				  attr("y", height).
-				  attr("dx", -barWidth/2).
-				  attr("text-anchor", "middle").
-				  attr("style", "font-size: 12").
-				  text(function(datum) { return datum.emotion;}).
-				  attr("transform", "translate(0, 18)").
-				  attr("class", "yAxis");
+					svg.selectAll("text.yAxis").data(emotionData).enter().append("svg:text").attr("x", function(datum, index) {
+						return x(index) + barWidth;
+					}).attr("y", height).attr("dx", -barWidth / 2).attr("text-anchor", "middle").attr("style", "font-size: 12").text(function(datum) {
+						return datum.emotion;
+					}).attr("transform", "translate(0, 18)").attr("class", "yAxis");
 
-				function updateData(data) {
-					// update
-					var rects = svg.selectAll("rect")
-						.data(data)
-						.attr("y", function(datum) { return height - y(datum.value); })
-						.attr("height", function(datum) { return y(datum.value); });
-					var texts = svg.selectAll("text.labels")
-						.data(data)
-						.attr("y", function(datum) { return height - y(datum.value); })
-						.text(function(datum) { return datum.value.toFixed(1);});
+					function updateData(data) {
+						// update
+						var rects = svg.selectAll("rect")
+							.data(data)
+							.attr("y", function(datum) {
+								return height - y(datum.value);
+							})
+							.attr("height", function(datum) {
+								return y(datum.value);
+							});
+						var texts = svg.selectAll("text.labels")
+							.data(data)
+							.attr("y", function(datum) {
+								return height - y(datum.value);
+							})
+							.text(function(datum) {
+								return datum.value.toFixed(1);
+							});
 
-					// enter
-					rects.enter().append("svg:rect");
-					texts.enter().append("svg:text");
+						// enter
+						rects.enter().append("svg:rect");
+						texts.enter().append("svg:text");
 
-					// exit
-					rects.exit().remove();
-					texts.exit().remove();
-				}
+						// exit
+						rects.exit().remove();
+						texts.exit().remove();
+					}
 
-				// end of d3 code *******************
-
-
+					// end of d3 code *******************
 
 					drawLoop();
 				});
@@ -544,7 +555,7 @@ var ec = new emotionClassifier();
 					socket.emit('leave', evt.uid);
 
 					stream.stop();
-					document.querySelector("#video-container").removeChild(document.querySelector('#agora_container' + + evt.uid + ''));
+					document.querySelector("#video-container .right-part").removeChild(document.querySelector('#agora_container' + +evt.uid + ''));
 					console.log(evt.uid + " leaved from this channel");
 				});
 			}
