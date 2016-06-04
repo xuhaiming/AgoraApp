@@ -49,6 +49,22 @@ audio, canvas, progress, video {
   box-sizing: border-box;
   display: inline-block;
 }
+
+#overlay, #webgl {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	-o-transform : scaleX(-1);
+	-webkit-transform : scaleX(-1);
+	transform : scaleX(-1);
+	-ms-filter : fliph; /*IE*/
+	filter : fliph; /*IE*/
+
+	width : 405px;
+	height : 303px;
+}
+
+
 .right-part{
   position: relative;
   width: 50%;
