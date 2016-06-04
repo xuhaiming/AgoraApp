@@ -10,6 +10,12 @@
 
 	<script src="js/clmtrackr.js"></script>
 	<script src="js/model_pca_20_svm.js"></script>
+	<style>
+		audio, canvas, progress, video {
+			position: absolute;
+			left: 0;
+		}
+	</style>
 </head>
 
 <body>
@@ -33,7 +39,6 @@
 
 <div id="video-container">
 	<div id="agora_local" style="width:400px;height:300px;display:inline-block;"></div>
-	<canvas id="drawCanvas" width="400" height="300"></canvas>
 </div>
 
 <script language="javascript">
@@ -124,11 +129,15 @@
 					var stream = evt.stream;
 					console.log("Subscribe remote stream successfully: " + stream.getId());
 					if ($('div#video-container #agora_remote' + stream.getId()).length === 0) {
-						$('div#video-container').append('<div id="agora_remote' + stream.getId() + '" style="width:405px;height:303px;display:inline-block;"></div>');
+						var container = document.createElement("div");
+						container.id = '"agora_container' + stream.getId() + '"';
+						document.querySelector('#video-container').appendChild(container);
+						$(container).append('<div id="agora_remote' + stream.getId() + '" style="width:405px;height:303px;display:inline-block;"></div>');
+						$(container).append('<canvas id="drawCanvas' + stream.getId() + '" width='+405+' height='+303+'"></canvas>');
 					}
 					stream.play('agora_remote' + stream.getId());
 
-
+					var canvasInput = document.querySelector('#drawCanvas' + + stream.getId() +'');
 					var videoInput = document.querySelector('#agora_remote' + + stream.getId() + ' video');
 					videoInput.width = 400;
 					videoInput.height = 300;
@@ -145,7 +154,6 @@
 					}
 					positionLoop();
 
-					var canvasInput = document.getElementById('drawCanvas');
 					var cc = canvasInput.getContext('2d');
 					function drawLoop() {
 						requestAnimationFrame(drawLoop);
@@ -164,9 +172,9 @@
 				client.on('peer-leave', function(evt) {
 					var stream = evt.stream;
 					stream.stop();
+					document.querySelector("#video-container").removeChild(document.querySelector('#agora_remote' + + evt.uid + ''));
 					console.log(evt.uid + " leaved from this channel");
 				});
-				// for dynamic key
 			}
 		});
 	}
