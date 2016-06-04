@@ -83,6 +83,8 @@
 <script language="javascript">
 	var client, localStream, camera, microphone;
 
+	var socket = io();
+
 	var channelValue = '1001';
 
 	var audioSelect = document.querySelector('select#audioSource');
@@ -115,6 +117,8 @@
 				client.init(dynamic_key, function() {
 					console.log("AgoraRTC client initialized");
 					client.join(channelValue, undefined, function(uid) {
+						socket.emit('join', uid);
+
 						console.log("User " + uid + " join channel successfully");
 
 						camera = videoSource.value;
@@ -321,6 +325,9 @@ var ec = new emotionClassifier();
 
 				client.on('peer-leave', function(evt) {
 					var stream = evt.stream;
+
+					socket.emit('leave', evt.uid);
+
 					stream.stop();
 					document.querySelector("#video-container").removeChild(document.querySelector('#agora_container' + + evt.uid + ''));
 					console.log(evt.uid + " leaved from this channel");
