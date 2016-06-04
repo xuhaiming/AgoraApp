@@ -3,6 +3,7 @@
 <head>
 	<title>Agora Web Sample</title>
 	<link rel="stylesheet" href="vendor/bootstrap.min.css">
+	<link rel="stylesheet" href="css/style.css">
 	<script src="vendor/jquery.js"></script>
 	<script src="vendor/socket.io.js"></script>
 	<script src="vendor/adapter.js"></script>
@@ -15,46 +16,6 @@
 	<script src="js/d3.min.js"></script>
 	<script src="js/emotion_classifier.js"></script>
 	<script src="js/emotionmodel.js"></script>
-	<style>
-		audio, canvas, progress, video {
-			position: absolute;
-			left: 0;
-		};
-		#controls {
-				text-align : center;
-		}
-		#emotion_container {
-			width: 600px;
-		}
-
-		#emotion_icons {
-			height: 50px;
-			padding-left: 40px;
-		}
-
-		.emotion_icon {
-			width : 40px;
-			height : 40px;
-			margin-top: 5px;
-			/*margin-left : 13px;*/
-			margin-left : 35px;
-		}
-
-		#emotion_chart, #emotion_icons {
-			margin: 0 auto;
-			width : 400px;
-		}
-
-		#icon1, #icon2, #icon3, #icon4, #icon5, #icon6 {
-			visibility : hidden;
-		}
-
-		/* d3 */
-		.bar {
-			fill : steelblue;
-			fill-opacity : .9;
-		}
-	</style>
 </head>
 
 <body>
