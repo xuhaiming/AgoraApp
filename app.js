@@ -8,12 +8,13 @@ var https = require('https');
 var fs = require('fs');
 var privateKey = fs.readFileSync('./sslcert/privateKey.key', 'utf8');
 var certificate = fs.readFileSync('./sslcert/certificate.crt', 'utf8');
+var config = require('./config');
 
 var PORT = 8080;
 
 // Fill the vendorkey and sign key given by Agora.io
-var VENDOR_KEY = "a6c41165e3864e398294c1e306658589";
-var SIGN_KEY = "7eb4ea0f17cb4bd887e209a6c7a3228b";
+var VENDOR_KEY = config.VENDOR_KEY;
+var SIGN_KEY = config.SIGN_KEY;
 
 //var private_key = fs.readFileSync(__dirname + '/../../cert/xxx.com.key');
 //var certificate = fs.readFileSync(__dirname + '/../../cert/xxx.com.crt');
@@ -71,7 +72,8 @@ io.on('connection', function(socket) {
   socket.on('join', function(id, name) {
     userList.push({
       id: id,
-      name: name
+      name: name,
+      currentEmotion: -1
     });
     console.log('user join', userList);
   });
@@ -88,9 +90,10 @@ io.on('connection', function(socket) {
   });
 
   socket.on('sendEmotion', function(uid, emotionId) {
-    var userName = userList.find(function(user) {
+    var user = userList.find(function(user) {
       return user.id == uid;
-    }).name;
+    });
+    var userName = user.name;
 
     var emotionMessage = "";
 
@@ -105,11 +108,14 @@ io.on('connection', function(socket) {
         emotionMessage = "AMAZING!!!";
         break;
       case 3:
-        emotionMessage = "Hahahahahahaha";
+        emotionMessage = "Hahaha, so funny!";
         break;
     }
 
-    io.emit('chat message', userName, emotionMessage);
+    if (user.currentEmotion != emotionId) {
+      user.currentEmotion = emotionId;
+      io.emit('chat message', userName, emotionMessage);
+    }
   });
 });
 
