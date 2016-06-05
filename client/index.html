@@ -59,10 +59,10 @@
 	<div class="left-part">
 		<div id="agora_local" style="width:400px;height:300px;display:inline-block;"></div>
 		<div id="chatting_container">
-			<div id="chatting_messages"></div>
+			<ul id="chatting_messages"></ul>
 			<div class="input_container">
-				<input class="form-control" type="text" id="chatting_input">
-				<button id="chatting_submit" class="btn btn-primary">Send</button>
+				<input class="form-control" type="text" id="chatting_input" onkeypress="handleKeyPress(event)">
+				<button id="chatting_submit" class="btn btn-primary" onclick="sendMessage()">Send</button>
 			</div>
 		</div>
 	</div><div class="right-part"></div>
@@ -95,6 +95,10 @@ function adduser() {
 
 	var audioSelect = document.querySelector('select#audioSource');
 	var videoSelect = document.querySelector('select#videoSource');
+
+	socket.on('chat message', function(msg){
+		$('#chatting_messages').append($('<li>').text(msg));
+	});
 
 	function join() {
 		document.getElementById("join").disabled = true;
@@ -403,6 +407,23 @@ function adduser() {
 	}
 
 	join();
+
+	function sendMessage() {
+		emitMessage();
+		$('#chatting_input').val('');
+	}
+
+	function handleKeyPress(e) {
+		var key=e.keyCode || e.which;
+		if (key==13){
+			sendMessage();
+		}
+	}
+
+	function emitMessage() {
+		var message = $('#chatting_input').val();
+		socket.emit('sendMessage', message);
+	}
 
 	function leave() {
 		document.getElementById("leave").disabled = true;

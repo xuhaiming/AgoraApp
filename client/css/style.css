@@ -87,6 +87,10 @@ audio, canvas, progress, video {
     height: 300px;
     background-color: #f9f9f9;
     margin: 0 auto;
+    list-style: none;
+    text-align: left;
+    padding: 20px;
+    overflow: auto;
 }
 
 #chatting_input {

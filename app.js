@@ -79,6 +79,10 @@ io.on('connection', function(socket) {
     });
     console.log('user leave', id);
   });
+
+  socket.on('sendMessage', function(msg) {
+    io.emit('chat message', msg);
+  })
 });
 
 httpsServer.listen(8443);
