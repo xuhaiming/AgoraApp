@@ -61,3 +61,24 @@ audio, canvas, progress, video {
 .masks {
     display: none;
 }
+
+.login_page{
+  width: 600px;
+  margin: 0 auto;
+  position: relative;
+  margin-top: 30px;
+  background-color: white;
+  z-index: 999;
+  padding:0 10px;
+}
+
+.login_page h1{
+  font-family: Consolas, monaco, monospace;
+	font-size: 24px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 500;
+	line-height: 26.4px;
+  text-align: center;
+  padding: 20px 0;
+}

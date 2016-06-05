@@ -26,20 +26,16 @@
 
 <body>
 
-<div class="login_page">
-	<div class="user_name_container">
-		<label for="username">Your Name: </label>
-		<input type="text" id="username" name="username"/>
-	</div>
-	<div class="mask_selector_container">
-		<span class="mask"></span>
-		<span class="mask"></span>
-		<span class="mask"></span>
-		<span class="mask"></span>
-		<span class="mask"></span>
-	</div>
-	<button class="start_button">Start!</button>
-</div>
+	<form class="login_page">
+		<h1 class="title">
+			monalisa's emotions
+		</h1>
+	  <div class="form-group">
+	    <label for="username">Your Name:</label>
+	    <input type="text" class="form-control" id="username" placeholder="Enter your name">
+	  </div>
+	  <a type="submit" class="btn  btn-primary" onclick="adduser()">Start!</a>
+	</form>
 
 <div id="div_device" class="panel panel-default" style="display:none">
 	<div class="select">
@@ -68,6 +64,20 @@
 <img id="average" class="masks" src="./assets/average.bmp"></img>
 <img id="monalisa" class="masks" src="./assets/joconde.jpg"></img>
 <img id="ironman" class="masks" src="./assets/ironman.jpg"></img>
+
+<script language="javascript">
+var user = null;
+if (user=== null) {
+	$("#video-container").css('display','none');
+	$(".login_page").css('display','block');
+}
+
+function adduser() {
+	user = $("#username").val();
+	$("#video-container").css('display','block');
+	$(".login_page").css('display','none');
+}
+</script>
 
 <script language="javascript">
 	var client, localStream, camera, microphone;
