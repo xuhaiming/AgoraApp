@@ -62,6 +62,13 @@
 <div id="video-container">
 	<div class="left-part">
 		<div id="agora_local" style="width:400px;height:300px;display:inline-block;"></div>
+		<div id="chatting_container">
+			<div id="chatting_messages"></div>
+			<div class="input_container">
+				<input class="form-control" type="text" id="chatting_input">
+				<button id="chatting_submit" class="btn btn-primary">Send</button>
+			</div>
+		</div>
 	</div><div class="right-part"></div>
 </div>
 
@@ -165,11 +172,11 @@
 						var container = document.createElement("div");
 						container.id = 'agora_container' + stream.getId();
 						document.querySelector('#video-container .right-part').appendChild(container);
+						$(container).append('<div id="emotion_container"> <div id="emotion_icons"> <img class="emotion_icon" id="icon1" src="./media/icon_angry.png"> <img class="emotion_icon" id="icon2" src="./media/icon_sad.png"> <img class="emotion_icon" id="icon3" src="./media/icon_surprised.png"> <img class="emotion_icon" id="icon4" src="./media/icon_happy.png"> </div> <div id="emotion_chart"></div>')
 						$(container).append('<div id="agora_remote' + stream.getId() + '" style="width:405px;height:303px;display:inline-block;"></div>');
 						$(container).append('<canvas id="drawCanvas' + stream.getId() + '" width=' + 405 + ' height=' + 303 + '"></canvas>');
 						$(container).append('<canvas id="overlay' + stream.getId() + '" width=' + 405 + ' height=' + 303 + '"></canvas>');
 						$(container).append('<canvas id="webgl' + stream.getId() + '" width=' + 405 + ' height=' + 303 + '"></canvas>');
-						$(container).append('<div id="emotion_container"> <div id="emotion_icons"> <img class="emotion_icon" id="icon1" src="./media/icon_angry.png"> <img class="emotion_icon" id="icon2" src="./media/icon_sad.png"> <img class="emotion_icon" id="icon3" src="./media/icon_surprised.png"> <img class="emotion_icon" id="icon4" src="./media/icon_happy.png"> </div> <div id="emotion_chart"></div>')
 					}
 
 					stream.play('agora_remote' + stream.getId());

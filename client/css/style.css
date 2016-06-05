@@ -61,3 +61,21 @@ audio, canvas, progress, video {
 .masks {
     display: none;
 }
+
+#chatting_messages {
+    width: 400px;
+    height: 300px;
+    background-color: #f9f9f9;
+    margin: 0 auto;
+}
+
+#chatting_input {
+    width: 338px;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+#chatting_submit {
+    position: relative;
+    top: -1px;
+}
