@@ -96,16 +96,16 @@ io.on('connection', function(socket) {
 
     switch(emotionId) {
       case 0:
-        emotionMessage = "Angry";
+        emotionMessage = "I AM SO ANGRY!!!";
         break;
       case 1:
-        emotionMessage = "Sad";
+        emotionMessage = "Oh, I feel so sad.";
         break;
       case 2:
-        emotionMessage = "Surprise";
+        emotionMessage = "AMAZING!!!";
         break;
       case 3:
-        emotionMessage = "Happy";
+        emotionMessage = "Hahahahahahaha";
         break;
     }
 

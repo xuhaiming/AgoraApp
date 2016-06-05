@@ -98,7 +98,9 @@
 	var videoSelect = document.querySelector('select#videoSource');
 
 	socket.on('chat message', function(user, msg) {
-		$('#chatting_messages').append($('<li>').text(user + ': ' + msg));
+		var element = $('#chatting_messages');
+		element.append($('<li>').text(user + ': ' + msg));
+		element.scrollTop(element.height())
 	});
 
 	function join() {
@@ -296,7 +298,7 @@
 						if (er) {
 							updateData(er);
 							for (var i = 0; i < er.length; i++) {
-									if (er[i].value > 0.4) {
+									if (er[i].value > 0.6) {
 										emitEmotion(stream.getId(), i);
 									}
 							}
