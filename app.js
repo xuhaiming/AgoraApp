@@ -68,21 +68,49 @@ io.on('connection', function(socket) {
     console.log('user disconnected');
   });
 
-  socket.on('join', function(id) {
-    userList.push(id);
+  socket.on('join', function(id, name) {
+    userList.push({
+      id: id,
+      name: name
+    });
     console.log('user join', userList);
   });
 
   socket.on('leave', function(id) {
-    userList = userList.filter(function(uid) {
-      return uid != id
+    userList = userList.filter(function(user) {
+      return user.id != id
     });
     console.log('user leave', id);
   });
 
-  socket.on('sendMessage', function(msg) {
-    io.emit('chat message', msg);
-  })
+  socket.on('sendMessage', function(user, msg) {
+    io.emit('chat message', user, msg);
+  });
+
+  socket.on('sendEmotion', function(uid, emotionId) {
+    var userName = userList.find(function(user) {
+      return user.id == uid;
+    }).name;
+
+    var emotionMessage = "";
+
+    switch(emotionId) {
+      case 0:
+        emotionMessage = "Angry";
+        break;
+      case 1:
+        emotionMessage = "Sad";
+        break;
+      case 2:
+        emotionMessage = "Surprise";
+        break;
+      case 3:
+        emotionMessage = "Happy";
+        break;
+    }
+
+    io.emit('chat message', userName, emotionMessage);
+  });
 });
 
 httpsServer.listen(8443);
