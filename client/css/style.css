@@ -9,6 +9,7 @@ audio, canvas, progress, video {
 
 #icon1, #icon2, #icon3, #icon4, #icon5, #icon6 {
     visibility: hidden;
+    margin: 0 22px;
 }
 
 /* d3 */
@@ -49,25 +50,12 @@ audio, canvas, progress, video {
     height: 303px;
 }
 
-#agora_local {
-    border: 1px solid #eee;
-    padding: 3px;
-    margin: 0 auto;
-    border-radius: 4px;
-}
-
 .right-part {
     position: relative;
     width: 50%;
     vertical-align: top;
     display: inline-block;
     box-sizing: border-box;
-}
-
-.right-part > div > div:first-child {
-    border: 1px solid #eee;
-    border-radius: 4px;
-    padding: 2px;
 }
 
 .masks {
